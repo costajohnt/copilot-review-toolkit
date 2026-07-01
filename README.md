@@ -1,0 +1,94 @@
+# copilot-review-toolkit
+
+A faithful port of Anthropic's [`pr-review-toolkit`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/pr-review-toolkit) Claude Code plugin to **GitHub Copilot CLI**.
+
+Same six specialized review lenses plus an orchestrator, packaged as a Copilot CLI **plugin** (`.agent.md` custom agents). The two tools use different formats, so the personas are ported rather than dropped in.
+
+## The agents
+
+| Agent | What it does | Edits code? |
+|-------|--------------|-------------|
+| `code-reviewer` | General quality + project-guideline compliance + bug detection. Confidence-scored 0-100, reports only >=80. | No (advisory) |
+| `silent-failure-hunter` | Hunts silent failures, broad catch blocks, unjustified fallbacks, missing error logging. | No (advisory) |
+| `type-design-analyzer` | Rates encapsulation, invariant expression/usefulness/enforcement of new types, 1-10 each. | No (advisory) |
+| `comment-analyzer` | Checks comment accuracy vs. code and flags comment rot. | No (advisory) |
+| `pr-test-analyzer` | Behavioral test-coverage gaps, criticality-rated 1-10. | No (advisory) |
+| `code-simplifier` | Simplifies recently-changed code, preserving behavior. | **Yes** |
+| `review-pr` | Orchestrator: delegates to the applicable reviewers as **subagents** and merges their findings into one prioritized report. | No |
+
+## Install
+
+### Recommended: as a Copilot CLI plugin
+
+Register this repo as a marketplace, then install the plugin. Copilot then manages updates and removal for you:
+
+```sh
+copilot plugin marketplace add costajohnt/copilot-review-toolkit
+copilot plugin install pr-review-toolkit@copilot-review-toolkit
+```
+
+Update later with `copilot plugin update pr-review-toolkit`; remove with `copilot plugin uninstall pr-review-toolkit`.
+
+### Alternative: install script (no plugin system)
+
+One-liner, copies the agents into `~/.copilot/agents/`:
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/costajohnt/copilot-review-toolkit/main/install.sh | bash
+```
+
+Or clone and run it:
+
+```sh
+git clone https://github.com/costajohnt/copilot-review-toolkit.git
+cd copilot-review-toolkit
+./install.sh          # user-level: ~/.copilot/agents  (every repo on your machine)
+./install.sh --repo   # repo-level: ./.github/agents    (commit into one project)
+```
+
+### Manual
+
+```sh
+cp plugins/pr-review-toolkit/agents/*.agent.md ~/.copilot/agents/
+```
+
+## Use
+
+In an interactive Copilot CLI session:
+
+```
+/agent                      # pick an agent from the list
+```
+
+Or invoke by name in a prompt: `Use the silent-failure-hunter agent on my staged changes.`
+
+Or non-interactively:
+
+```sh
+copilot --agent code-reviewer  -p "Review my unstaged changes"
+copilot --agent review-pr      -p "Review this branch against main"
+copilot --agent review-pr      -p "Review only tests and error handling"
+```
+
+The agents read the diff themselves (`git diff` by default; `git diff main...HEAD` for a branch/PR).
+
+## Repo layout
+
+```
+.github/plugin/marketplace.json     # makes the repo a Copilot CLI marketplace
+plugins/pr-review-toolkit/
+  plugin.json                       # the plugin manifest
+  agents/*.agent.md                 # the 7 agents
+install.sh                          # non-plugin fallback installer
+```
+
+## Notes
+
+- **Subagent orchestration.** `review-pr` has the `agent` tool in its frontmatter, which lets it delegate to the other agents as subagents (each getting a fresh, isolated context). That's the closest equivalent to the Claude plugin's parallel `Task` fan-out.
+- **Advisory vs. editing.** Every reviewer except `code-simplifier` only reports findings. `code-simplifier` actually rewrites code, so `review-pr` never runs it automatically - it only recommends it.
+- **Project guidelines.** The originals were written for one specific codebase (Sentry/Statsig/`errorIds.ts`). These ports are genericized to defer to whatever your repo provides: `AGENTS.md`, `.github/copilot-instructions.md`, `CLAUDE.md`, `CONTRIBUTING.md`, or configured linters.
+- **Restricting tools.** Reviewers use `tools: ["read", "search", "shell"]` (shell only to run `git diff`). Tighten or loosen per your comfort; omitting `tools` entirely grants all tools.
+
+## License
+
+Apache License 2.0. This is a derivative work of the `pr-review-toolkit` plugin from Anthropic's [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) (also Apache 2.0). See `LICENSE` for the full text and `NOTICE` for attribution and a summary of changes.

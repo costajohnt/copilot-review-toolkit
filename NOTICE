@@ -1,0 +1,18 @@
+copilot-review-toolkit
+Copyright 2026 John Costa
+
+This product includes software derived from the "pr-review-toolkit" plugin in
+Anthropic's claude-plugins-official repository
+(https://github.com/anthropics/claude-plugins-official), licensed under the
+Apache License, Version 2.0.
+
+Changes made from the original:
+- Ported the six reviewer agents and the review orchestrator from Claude Code
+  plugin format (agents/*.md + commands/*.md with Claude Code frontmatter) to
+  GitHub Copilot CLI custom agent format (.agent.md files).
+- Replaced the origin codebase's project-specific conventions (Sentry, Statsig,
+  constants/errorIds.ts, specific JS/React style rules) with generic guidance
+  that defers to each repository's AGENTS.md / .github/copilot-instructions.md /
+  CLAUDE.md / configured linters.
+- Reworked the /review-pr command into a review-pr orchestrator agent that
+  delegates to the reviewers via Copilot CLI's subagent (agent) tool.
