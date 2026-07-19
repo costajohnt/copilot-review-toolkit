@@ -89,6 +89,24 @@ install.sh                          # non-plugin fallback installer
 - **Project guidelines.** The originals were written for one specific codebase (Sentry/Statsig/`errorIds.ts`). These ports are genericized to defer to whatever your repo provides: `AGENTS.md`, `.github/copilot-instructions.md`, `CLAUDE.md`, `CONTRIBUTING.md`, or configured linters.
 - **Restricting tools.** Reviewers use `tools: ["read", "search", "shell"]` (shell only to run `git diff`). Tighten or loosen per your comfort; omitting `tools` entirely grants all tools.
 
+## opencode
+
+The same five advisory lenses plus `code-simplifier` are also shipped in [opencode](https://opencode.ai) agent format under `plugins/pr-review-toolkit/agents-opencode/`. Same personas, different frontmatter: opencode uses a `mode: primary` field and a `permission:` block (`edit`, `webfetch`, and a `bash` allow/deny map) instead of Copilot's `tools` array.
+
+Permissions per lens:
+
+- The five advisory reviewers (`code-reviewer`, `silent-failure-hunter`, `type-design-analyzer`, `comment-analyzer`, `pr-test-analyzer`) run with `edit: deny` so they can only report.
+- `code-simplifier` runs with `edit: allow` since it rewrites code in place.
+- All six deny `git push`, `gh pr`, `gh api`, and `rm -rf`, and allow everything else so they can run `git diff`.
+
+There is no opencode port of `review-pr`. opencode does not spawn subagents, so the orchestrator has no equivalent. Point your opencode runtime at whichever single lens you want, or have your own orchestrator run them and aggregate the output.
+
+To use them, copy the files into your project's `.opencode/agent/` directory (or the global `~/.config/opencode/agent/`), then select the agent in an opencode session:
+
+```sh
+cp plugins/pr-review-toolkit/agents-opencode/*.md .opencode/agent/
+```
+
 ## License
 
 Apache License 2.0. This is a derivative work of the `pr-review-toolkit` plugin from Anthropic's [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) (also Apache 2.0). See `LICENSE` for the full text and `NOTICE` for attribution and a summary of changes.
