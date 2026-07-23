@@ -108,6 +108,14 @@ To use them, copy the files into your project's `.opencode/agent/` directory (or
 cp plugins/pr-review-toolkit/agents-opencode/*.md .opencode/agent/
 ```
 
+These agents need a model that supports tool use (they run `git diff` and, for `review-pr`, the Task tool). If your provider routes to a non-tool model you'll see `No endpoints found that support tool use`; pick a tool-capable model, e.g.:
+
+```sh
+opencode run --agent review-pr -m openrouter/anthropic/claude-haiku-4.5 "Review my unstaged diff"
+```
+
+Verified against opencode 1.18.4: `review-pr` runs `git diff`, delegates to the applicable advisory lenses via the Task tool, and aggregates one prioritized report.
+
 ## License
 
 Apache License 2.0. This is a derivative work of the `pr-review-toolkit` plugin from Anthropic's [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) (also Apache 2.0). See `LICENSE` for the full text and `NOTICE` for attribution and a summary of changes.
