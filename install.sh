@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Fallback installer for copilot-review-toolkit (copies the agents directly).
+# Fallback installer for pr-review-lenses (copies the agents directly).
 # The recommended install is the native Copilot CLI plugin - see README.
 #
 # Usage:
@@ -7,11 +7,11 @@
 #   ./install.sh --repo       # install to ./.github/agents (current repo only)
 #
 # Or straight from GitHub (clones to a temp dir, installs, cleans up):
-#   curl -fsSL https://raw.githubusercontent.com/costajohnt/copilot-review-toolkit/main/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/costajohnt/pr-review-lenses/main/install.sh | bash
 
 set -euo pipefail
 
-REPO_URL="https://github.com/costajohnt/copilot-review-toolkit.git"
+REPO_URL="https://github.com/costajohnt/pr-review-lenses.git"
 PLUGIN_SUBDIR="plugins/pr-review-toolkit/agents"
 
 # Pick the target directory.
@@ -30,7 +30,7 @@ if [ -n "${SCRIPT_DIR}" ] && [ -d "${SCRIPT_DIR}/${PLUGIN_SUBDIR}" ]; then
 else
   TMP="$(mktemp -d)"
   CLEANUP="${TMP}"
-  echo "Fetching copilot-review-toolkit..."
+  echo "Fetching pr-review-lenses..."
   git clone --depth 1 "${REPO_URL}" "${TMP}/repo" >/dev/null 2>&1
   SRC="${TMP}/repo/${PLUGIN_SUBDIR}"
 fi

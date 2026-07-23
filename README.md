@@ -1,8 +1,8 @@
-# copilot-review-toolkit
+# pr-review-lenses
 
-A faithful port of Anthropic's [`pr-review-toolkit`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/pr-review-toolkit) Claude Code plugin to **GitHub Copilot CLI**.
+A faithful port of Anthropic's [`pr-review-toolkit`](https://github.com/anthropics/claude-plugins-official/tree/main/plugins/pr-review-toolkit) Claude Code plugin to **GitHub Copilot CLI** and **opencode**.
 
-Same six specialized review lenses plus an orchestrator, packaged as a Copilot CLI **plugin** (`.agent.md` custom agents). The two tools use different formats, so the personas are ported rather than dropped in.
+Same six specialized review lenses plus an orchestrator, ported to each runtime's agent format (`.agent.md` for Copilot, `mode`/`permission` frontmatter for opencode). The tools use different formats, so the personas are ported rather than dropped in.
 
 ## The agents
 
@@ -23,8 +23,8 @@ Same six specialized review lenses plus an orchestrator, packaged as a Copilot C
 Register this repo as a marketplace, then install the plugin. Copilot then manages updates and removal for you:
 
 ```sh
-copilot plugin marketplace add costajohnt/copilot-review-toolkit
-copilot plugin install pr-review-toolkit@copilot-review-toolkit
+copilot plugin marketplace add costajohnt/pr-review-lenses
+copilot plugin install pr-review-toolkit@pr-review-lenses
 ```
 
 Update later with `copilot plugin update pr-review-toolkit`; remove with `copilot plugin uninstall pr-review-toolkit`.
@@ -34,14 +34,14 @@ Update later with `copilot plugin update pr-review-toolkit`; remove with `copilo
 One-liner, copies the agents into `~/.copilot/agents/`:
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/costajohnt/copilot-review-toolkit/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/costajohnt/pr-review-lenses/main/install.sh | bash
 ```
 
 Or clone and run it:
 
 ```sh
-git clone https://github.com/costajohnt/copilot-review-toolkit.git
-cd copilot-review-toolkit
+git clone https://github.com/costajohnt/pr-review-lenses.git
+cd pr-review-lenses
 ./install.sh          # user-level: ~/.copilot/agents  (every repo on your machine)
 ./install.sh --repo   # repo-level: ./.github/agents    (commit into one project)
 ```
