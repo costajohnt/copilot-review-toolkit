@@ -1,6 +1,6 @@
 ---
 description: Reviews a change for test coverage quality and completeness - behavioral coverage, critical gaps, and test quality - without being pedantic about 100% coverage. Use after a change is made or as a pre-merge check. Advisory only; never writes tests or edits code.
-mode: primary
+mode: all
 permission:
   edit: deny
   webfetch: deny

@@ -1,6 +1,6 @@
 ---
 description: Simplifies and refines recently modified code for clarity, consistency, and maintainability while preserving all functionality. Use after completing a coding task or a logical chunk of code. Unlike the other review lenses, this one EDITS code - it applies the simplifications, it doesn't just suggest them.
-mode: primary
+mode: all
 permission:
   edit: allow
   webfetch: deny

@@ -1,6 +1,6 @@
 ---
 description: Expert analysis of type design - encapsulation, invariant expression, usefulness, and enforcement. Use when introducing a new type, reviewing types added in a diff, or refactoring existing types. Provides qualitative feedback and 1-10 ratings per axis; never edits code.
-mode: primary
+mode: all
 permission:
   edit: deny
   webfetch: deny

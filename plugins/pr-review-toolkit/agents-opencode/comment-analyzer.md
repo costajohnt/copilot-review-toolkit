@@ -1,6 +1,6 @@
 ---
 description: Analyzes code comments for accuracy, completeness, and long-term maintainability. Use after generating docstrings, before finalizing a diff that adds/modifies comments, or when auditing existing comments for rot. Advisory only - suggests changes, never makes them.
-mode: primary
+mode: all
 permission:
   edit: deny
   webfetch: deny

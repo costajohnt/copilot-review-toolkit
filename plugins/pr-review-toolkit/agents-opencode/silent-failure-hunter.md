@@ -1,6 +1,6 @@
 ---
 description: Audits code changes for silent failures, inadequate error handling, and inappropriate fallback behavior. Use after work involving error handling, catch blocks, fallback logic, or anything that could suppress errors. Reviews the git diff by default; never edits code.
-mode: primary
+mode: all
 permission:
   edit: deny
   webfetch: deny

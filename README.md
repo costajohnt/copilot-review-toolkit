@@ -91,15 +91,16 @@ install.sh                          # non-plugin fallback installer
 
 ## opencode
 
-The same five advisory lenses plus `code-simplifier` are also shipped in [opencode](https://opencode.ai) agent format under `plugins/pr-review-toolkit/agents-opencode/`. Same personas, different frontmatter: opencode uses a `mode: primary` field and a `permission:` block (`edit`, `webfetch`, and a `bash` allow/deny map) instead of Copilot's `tools` array.
+The same five advisory lenses, `code-simplifier`, and the `review-pr` orchestrator are also shipped in [opencode](https://opencode.ai) agent format under `plugins/pr-review-toolkit/agents-opencode/`. Same personas, different frontmatter: opencode uses a `mode` field and a `permission:` block (`edit`, `webfetch`, a `bash` allow/deny map, and `task` for delegation) instead of Copilot's `tools` array.
 
 Permissions per lens:
 
 - The five advisory reviewers (`code-reviewer`, `silent-failure-hunter`, `type-design-analyzer`, `comment-analyzer`, `pr-test-analyzer`) run with `edit: deny` so they can only report.
 - `code-simplifier` runs with `edit: allow` since it rewrites code in place.
 - All six deny `git push`, `gh pr`, `gh api`, and `rm -rf`, and allow everything else so they can run `git diff`.
+- The six lenses use `mode: all`, so you can Tab to any one directly or have the orchestrator delegate to it.
 
-There is no opencode port of `review-pr`. opencode does not spawn subagents, so the orchestrator has no equivalent. Point your opencode runtime at whichever single lens you want, or have your own orchestrator run them and aggregate the output.
+`review-pr` is the orchestrator (`mode: primary`). opencode primary agents invoke subagents via the Task tool, so it delegates to the applicable advisory lenses and aggregates their findings into one prioritized report, same as the Copilot version. Its `permission.task` block allows the five advisory reviewers, and gates `code-simplifier` behind `ask` (it edits, so it is never auto-run during review).
 
 To use them, copy the files into your project's `.opencode/agent/` directory (or the global `~/.config/opencode/agent/`), then select the agent in an opencode session:
 

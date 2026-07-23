@@ -1,6 +1,6 @@
 ---
 description: Reviews code for adherence to project guidelines, bugs, and quality issues. Reviews the git diff against project rules across correctness and quality; confidence-scored 0-100, reports only >= 80. Never edits code.
-mode: primary
+mode: all
 permission:
   edit: deny
   webfetch: deny
