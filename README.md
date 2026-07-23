@@ -116,6 +116,10 @@ opencode run --agent review-pr -m openrouter/anthropic/claude-haiku-4.5 "Review 
 
 Verified against opencode 1.18.4: `review-pr` runs `git diff`, delegates to the applicable advisory lenses via the Task tool, and aggregates one prioritized report.
 
+## Disclaimer
+
+This is an independent, community project. It is not built by, affiliated with, or endorsed by Anthropic, GitHub, Microsoft, or the opencode team. It ports Anthropic's open-source `pr-review-toolkit` and packages the result for the GitHub Copilot CLI and opencode. "Claude", "GitHub Copilot", and "opencode" are trademarks of their respective owners; they are used here only to describe compatibility.
+
 ## License
 
 Apache License 2.0. This is a derivative work of the `pr-review-toolkit` plugin from Anthropic's [claude-plugins-official](https://github.com/anthropics/claude-plugins-official) (also Apache 2.0). See `LICENSE` for the full text and `NOTICE` for attribution and a summary of changes.
