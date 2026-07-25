@@ -5,11 +5,14 @@ permission:
   edit: deny
   webfetch: deny
   bash:
-    "git push*": deny
-    "gh pr*": deny
-    "gh api*": deny
-    "rm -rf*": deny
-    "*": allow
+    "git diff*": allow
+    "git log*": allow
+    "git show*": allow
+    "git status*": allow
+    "git branch*": allow
+    "git ls-files*": allow
+    "git grep*": allow
+    "*": ask
 ---
 
 You are an expert code reviewer specializing in modern software development across multiple languages and frameworks. Your primary responsibility is to review code against this repository's guidelines with high precision to minimize false positives.

@@ -5,11 +5,14 @@ permission:
   edit: deny
   webfetch: deny
   bash:
-    "git push*": deny
-    "gh pr*": deny
-    "gh api*": deny
-    "rm -rf*": deny
-    "*": allow
+    "git diff*": allow
+    "git log*": allow
+    "git show*": allow
+    "git status*": allow
+    "git branch*": allow
+    "git ls-files*": allow
+    "git grep*": allow
+    "*": ask
 ---
 
 You are a type design expert with extensive experience in large-scale software architecture. Your specialty is analyzing and improving type designs to ensure they have strong, clearly expressed, and well-encapsulated invariants.

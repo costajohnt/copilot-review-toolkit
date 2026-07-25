@@ -1,4 +1,4 @@
-copilot-review-toolkit
+pr-review-lenses
 Copyright 2026 John Costa
 
 This product includes software derived from the "pr-review-toolkit" plugin in
@@ -16,3 +16,5 @@ Changes made from the original:
   CLAUDE.md / configured linters.
 - Reworked the /review-pr command into a review-pr orchestrator agent that
   delegates to the reviewers via Copilot CLI's subagent (agent) tool.
+- Added opencode ports of the agents (plugins/pr-review-toolkit/agents-opencode/)
+  with opencode permission blocks enforcing their advisory, read-only role.
