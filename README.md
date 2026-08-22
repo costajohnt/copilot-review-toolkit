@@ -97,7 +97,8 @@ Permissions per lens:
 
 - The five advisory reviewers (`code-reviewer`, `silent-failure-hunter`, `type-design-analyzer`, `comment-analyzer`, `pr-test-analyzer`) run with `edit: deny` so they can only report.
 - `code-simplifier` runs with `edit: allow` since it rewrites code in place.
-- All six deny `git push`, `gh pr`, `gh api`, and `rm -rf`, and allow everything else so they can run `git diff`.
+- The five advisory reviewers (and `review-pr`) allow only read-only git commands (`git diff`, `git log`, `git show`, `git status`, `git branch`, `git ls-files`, `git grep`); any other shell command falls through to `"*": ask`.
+- `code-simplifier` allows shell generally but denies `git push`, `gh pr`, `gh api`, and `rm -rf`.
 - The six lenses use `mode: all`, so you can Tab to any one directly or have the orchestrator delegate to it.
 
 `review-pr` is the orchestrator (`mode: primary`). opencode primary agents invoke subagents via the Task tool, so it delegates to the applicable advisory lenses and aggregates their findings into one prioritized report, same as the Copilot version. Its `permission.task` block allows the five advisory reviewers, and gates `code-simplifier` behind `ask` (it edits, so it is never auto-run during review).
