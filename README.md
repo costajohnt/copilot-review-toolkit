@@ -76,9 +76,11 @@ The agents read the diff themselves (`git diff` by default; `git diff main...HEA
 
 ```
 .github/plugin/marketplace.json     # makes the repo a Copilot CLI marketplace
+.github/workflows/ci.yml            # CI: JSON validity, shellcheck, agent frontmatter
 plugins/pr-review-toolkit/
   plugin.json                       # the plugin manifest
-  agents/*.agent.md                 # the 7 agents
+  agents/*.agent.md                 # the 7 agents (Copilot CLI format)
+  agents-opencode/*.md              # the same 7 agents (opencode format)
 install.sh                          # non-plugin fallback installer
 ```
 
