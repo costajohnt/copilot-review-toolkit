@@ -57,12 +57,29 @@ For each applicable reviewer, use the Task tool to invoke it by name. Launch the
 Collect every sub-reviewer's findings and merge them. De-duplicate issues that multiple reviewers flag at the same file:line (attribute to all reviewers that raised it). Normalize their varying severity scales into three buckets: Critical (must fix before merge), Important (should fix), Suggestion (nice to have).
 
 ### 5. Report
-Output a single summary in this format:
+Output a single summary in this format.
+
+Derive the verdict deterministically:
+- Any **Critical** issue present → `❌ Not yet`
+- Only **Important** or **Suggestion** issues → `⚠️ With changes`
+- No Critical or Important issues → `✅ Yes` (include a praise line)
 
 ```markdown
 # PR Review Summary
 
 Reviewed: <scope>. Ran: <reviewers>. Skipped: <reviewers + why>.
+
+## Verdict
+Mergeable: ✅ Yes  /  ⚠️ With changes  /  ❌ Not yet
+Rating: X.X / 5.0
+
+**What's good**
+- <strength — one concise line>
+
+**What needs improvement**
+- <path/to/file.ts:42> — <what and why>
+
+<praise line — include only when Mergeable: ✅ Yes>
 
 ## Critical Issues (X found)
 - [reviewer]: Issue description [file:line] -> concrete fix
