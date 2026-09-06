@@ -64,6 +64,9 @@ Derive the verdict deterministically:
 - Only **Important** or **Suggestion** issues → `⚠️ With changes`
 - No Critical or Important issues → `✅ Yes` (include a praise line)
 
+Derive the rating from the same counts: start at 5.0; subtract 1.0 per Critical and 0.5 per Important (Suggestions cost nothing); floor at 1.0; round to the nearest half.
+Bands: 4.5 to 5.0 = merge as is; 3.0 to 4.0 = mergeable with changes; below 3.0 = not yet.
+
 ```markdown
 # PR Review Summary
 
